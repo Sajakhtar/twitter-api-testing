@@ -18,8 +18,6 @@ coinmarketcap_results = JSON.parse(coinmarketcap_response)
 data = coinmarketcap_results['data']
 
 
-
-
 data.map! do |crypto|
   # find coingecko coin id
   # call coingecko api for coin
