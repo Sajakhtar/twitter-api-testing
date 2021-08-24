@@ -92,4 +92,4 @@ result = JSON.parse(response.body)
 
 # puts response.code, JSON.pretty_generate(result['data'][0])
 
-puts response.code, JSON.pretty_generate(result["includes"]['users'][0])
+# puts response.code, JSON.pretty_generate(result["includes"]['users'][0])
