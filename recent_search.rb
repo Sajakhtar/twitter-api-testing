@@ -98,9 +98,15 @@ result = JSON.parse(response.body)
 tweets = result['data']
 users = result["includes"]['users']
 
-tweets.map! do |tweet|
+tweets.map do |tweet|
   author = users.find { |user| user['id'] == tweet['author_id']}
   tweet['user'] = author
+  tweet
 end
 
 tweets.each { |tw| p tw['username']}
+
+# p tweets[0]
+
+
+p tweets[8]
