@@ -93,3 +93,14 @@ result = JSON.parse(response.body)
 # puts response.code, JSON.pretty_generate(result['data'][0])
 
 # puts response.code, JSON.pretty_generate(result["includes"]['users'][0])
+
+
+tweets = result['data']
+users = result["includes"]['users']
+
+tweets.map! do |tweet|
+  author = users.find { |user| user['id'] == tweet['author_id']}
+  tweet['user'] = author
+end
+
+tweets.each { |tw| p tw['username']}
