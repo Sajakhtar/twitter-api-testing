@@ -1,3 +1,4 @@
 .env
+vars.rb
 test.rb
 test.json
