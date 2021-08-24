@@ -5,16 +5,17 @@ require 'open-uri'
 require 'rest-client'
 
 # call coinggecko api coins list
-
+coingecko_response = RestClient.get 'https://api.coingecko.com/api/v3/coins/list'
+rcoingecko_results = JSON.parse(coingecko_response)
 
 
 key = COINMARKETCAP_KEY
 url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=#{key}&limit=200"
 
 
-response = RestClient.get url
-results = JSON.parse(response)
-data = results['data']
+coinmarketcap_response = RestClient.get url
+coinmarketcap_results = JSON.parse(coinmarketcap_response)
+data = coinmarketcap_results['data']
 
 
 
