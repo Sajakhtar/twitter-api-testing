@@ -1,8 +1,10 @@
+load 'vars.rb'
+
 require 'json'
 require 'open-uri'
 require 'rest-client'
 
-key = '328cd628-68a9-4568-83e9-5f16aa209cba'
+key = COINMARKETCAP_KEY
 url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?CMC_PRO_API_KEY=#{key}&limit=200"
 
 
