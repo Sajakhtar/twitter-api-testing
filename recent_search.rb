@@ -40,9 +40,9 @@ search_url = "https://api.twitter.com/2/tweets/search/recent"
 # query = '"$btc" lang:en is:verified -is:retweet -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
 
 # keyword
-query = 'nft lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
+# query = 'nft lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
 
-
+query = '"Bitcoin" "$BTC" lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
 
 #######
 # Do we need to append "#{query} crypto" OR "#{query} blockchain" to every query?
@@ -104,9 +104,10 @@ tweets.map do |tweet|
   tweet
 end
 
-tweets.each { |tw| p tw['username']}
+# tweets.each { |tw| p tw['username']}
 
 # p tweets[0]
 
 
-p tweets[8]
+p tweets.size
+p tweets
