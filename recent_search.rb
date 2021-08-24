@@ -90,4 +90,6 @@ response = search_tweets(search_url, bearer_token, query_params)
 # puts response.code, JSON.pretty_generate(JSON.parse(response.body))
 result = JSON.parse(response.body)
 
-puts response.code, JSON.pretty_generate(result['data'][0])
+# puts response.code, JSON.pretty_generate(result['data'][0])
+
+puts response.code, JSON.pretty_generate(result["includes"]['users'][0])
