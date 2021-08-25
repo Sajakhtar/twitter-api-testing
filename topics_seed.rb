@@ -19,7 +19,7 @@ data = coinmarketcap_results['data']
 
 
 data.map! do |crypto|
-  coingecko_coin_data= coingecko_results.find { |coin| coin["symbol"] == crypto["symbol"].downcase or coin["symbol"] == crypto["symbol"]}
+  coingecko_coin_data= coingecko_results.find { |coin| coin["symbol"].downcase == crypto["symbol"].downcase }
   crypto["coingecko_id"] = coingecko_coin_data['id']
   p crypto["coingecko_id"]
 
