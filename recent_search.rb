@@ -42,7 +42,8 @@ search_url = "https://api.twitter.com/2/tweets/search/recent"
 # keyword
 # query = 'nft lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
 
-query = '"Bitcoin" "$BTC" lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
+# query = '"Bitcoin" "$BT C" lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
+query = '("Ethereum" OR "$ETH") lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
 
 #######
 # Do we need to append "#{query} crypto" OR "#{query} blockchain" to every query?
@@ -58,7 +59,7 @@ query = '"Bitcoin" "$BTC" lang:en is:verified -is:quote -is:retweet -is:reply (h
 
 query_params = {
   "query": query, # Required
-  "max_results": 10,
+  "max_results": 100,
   # "start_time": "2021-08-24T00:00:00Z", # TRY WITH RUBY DATE
   "start_time": Date.today.strftime("%Y-%m-%dT%H:%M:%SZ"),
   # "end_time": "2020-07-02T18:00:00Z",
@@ -104,10 +105,17 @@ tweets.map do |tweet|
   tweet
 end
 
+tweets.select! { |tweet| tweet['user']["public_metrics"]["followers_count"] > 1000  }
+
+tweets.sort! { |a,b| b['user']["public_metrics"]["followers_count"] <=> a['user']["public_metrics"]["followers_count"]}
+
+tweets.first(10)
+
 # tweets.each { |tw| p tw['username']}
 
 # p tweets[0]
 
 
 p tweets.size
-p tweets
+# p tweets[0]
+p tweets.first(10)
