@@ -42,8 +42,19 @@ search_url = "https://api.twitter.com/2/tweets/search/recent"
 # keyword
 # query = 'nft lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
 
-# query = '"Bitcoin" "$BT C" lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
-query = '("Ethereum" OR "$ETH") lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
+# query = '"Bitcoin" "$BTC" lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
+# query = '("Ethereum" OR "$ETH") lang:en is:verified -is:quote -is:retweet -is:reply (has:media OR has:links OR has:hashtags OR has:videos OR has:mentions)'
+query = '("Bitcoin" OR "$BTC") lang:en is:verified'
+# query = '("Ethereum" OR "$ETH") lang:en is:verified'
+# query = '("Flow" OR "$FLOW") lang:en is:verified'
+# query = '("Cardano" OR "$ADA") lang:en is:verified'
+# query = '("Stacks" OR "$STX") lang:en is:verified'
+# query = '"blockchain" lang:en is:verified'
+# query = '("blockchain") lang:en is:verified'
+# query = '"NFT" lang:en is:verified' #- SAME AS BELOW
+# query = '("NFT") lang:en is:verified'
+# query = '"Bitcoin" OR "$BTC" lang:en is:verified' #- NEED PARENTHESIS
+
 
 #######
 # Do we need to append "#{query} crypto" OR "#{query} blockchain" to every query?
@@ -57,18 +68,27 @@ query = '("Ethereum" OR "$ETH") lang:en is:verified -is:quote -is:retweet -is:re
 # Add or remove parameters below to adjust the query and response fields within the payload
 # See docs for list of param options: https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent
 
+# query_params = {
+#   "query": query, # Required
+#   "max_results": 100,
+#   # "start_time": "2021-08-24T00:00:00Z", # TRY WITH RUBY DATE
+#   "start_time": Date.today.strftime("%Y-%m-%dT%H:%M:%SZ"),
+#   # "end_time": "2020-07-02T18:00:00Z",
+#   "expansions": "attachments.poll_ids,attachments.media_keys,author_id",
+#   "tweet.fields": "attachments,author_id,conversation_id,created_at,entities,id,lang,public_metrics,source,text,context_annotations,possibly_sensitive,withheld,geo,referenced_tweets",
+#   "user.fields": "name,location,description,public_metrics,url,username,verified,withheld,protected,profile_image_url",
+#   "media.fields": "url"
+#   # "place.fields": "country_code",
+#   # "poll.fields": "options"
+# }
+
 query_params = {
   "query": query, # Required
   "max_results": 100,
-  # "start_time": "2021-08-24T00:00:00Z", # TRY WITH RUBY DATE
   "start_time": Date.today.strftime("%Y-%m-%dT%H:%M:%SZ"),
-  # "end_time": "2020-07-02T18:00:00Z",
   "expansions": "attachments.poll_ids,attachments.media_keys,author_id",
-  "tweet.fields": "attachments,author_id,conversation_id,created_at,entities,id,lang,public_metrics,source,text,context_annotations,possibly_sensitive,withheld,geo,referenced_tweets",
-  "user.fields": "name,location,description,public_metrics,url,username,verified,withheld,protected,profile_image_url",
-  "media.fields": "url"
-  # "place.fields": "country_code",
-  # "poll.fields": "options"
+  "tweet.fields": "author_id,created_at,entities,id,lang,public_metrics,source,text,context_annotations,possibly_sensitive,withheld",
+  "user.fields": "public_metrics,url,username,verified,withheld,protected",
 }
 
 def search_tweets(url, bearer_token, query_params)
@@ -97,25 +117,53 @@ result = JSON.parse(response.body)
 
 
 tweets = result['data']
+p tweets.size
 users = result["includes"]['users']
+# p users.size
 
 tweets.map do |tweet|
   author = users.find { |user| user['id'] == tweet['author_id']}
   tweet['user'] = author
   tweet
 end
+p tweets.size
 
-tweets.select! { |tweet| tweet['user']["public_metrics"]["followers_count"] > 1000  }
+# tweets.select! { |tweet| tweet['user']["public_metrics"]["followers_count"] > 1000  }
+# p tweets.size
 
 tweets.sort! { |a,b| b['user']["public_metrics"]["followers_count"] <=> a['user']["public_metrics"]["followers_count"]}
 
-tweets.first(10)
+
+# filter for "lang": "en"
+tweets.select! { |tweet| tweet['lang'] == 'en' }
+p tweets.size
+
+# filter for "possibly_sensitive": false,
+tweets.select! { |tweet| tweet['possibly_sensitive'] == false }
+p tweets.size
+
+puts "--------------"
+tweets.each { |tw| p tw['user']["public_metrics"]["followers_count"] }
+
+puts "--------------"
+tweets.first(5).each { |tw| p tw['text'] }
+
+# tweets.first(10)
 
 # tweets.each { |tw| p tw['username']}
 
 # p tweets[0]
+# puts "--------------"
+# puts JSON.pretty_generate(tweets[0])
 
-
-p tweets.size
+# p tweets.size
 # p tweets[0]
-p tweets.first(10)
+# p tweets.first(10)
+
+
+# TO DO
+# add Parenthesis around the keyword '("Bitcoin" OR "$BTC") lang:en is:verified'
+# change query to lang en and verified only - '("NFT") lang:en is:verified'
+# Remove >1000 followers filter
+# Add filter for tweets.select! { |tweet| tweet['lang'] == 'en' }
+# Add filter for tweets.select! { |tweet| tweet['possibly_sensitive'] == false }
