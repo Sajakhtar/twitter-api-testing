@@ -54,7 +54,19 @@ query = '("Bitcoin" OR "$BTC") lang:en is:verified'
 # query = '"NFT" lang:en is:verified' #- SAME AS BELOW
 # query = '("NFT") lang:en is:verified'
 # query = '"Bitcoin" OR "$BTC" lang:en is:verified' #- NEED PARENTHESIS
-
+# query = '"$BTC" lang:en is:verified'
+# query = '"$FLOW" lang:en is:verified'
+# query = '"$STX" lang:en is:verified' #- NOT WORKING
+# query = '"$ADA" lang:en is:verified'
+# query = '"$DOT" lang:en is:verified'
+# query = '"$NEAR" lang:en is:verified'
+# query = '"$DOGE" lang:en is:verified'
+# query = '"$AXS" lang:en is:verified'
+# query = '$BTC lang:en is:verified' - CASHTAG ONLY AVAILBLE OFR ADVANVED TIER
+# query = '("Bitcoin" OR "$BTC" OR #btc OR #bitcoin OR #crypto) lang:en is:verified'
+# query = '("Stacks" OR "$STX" OR #stx OR #stacks) lang:en is:verified'
+# query = '("Stacks" OR "$STX" OR #stx OR #stacks) lang:en'
+# query = '("Bitcoin" OR "$BTC" OR #btc OR #bitcoin OR #crypto) lang:en'
 
 #######
 # Do we need to append "#{query} crypto" OR "#{query} blockchain" to every query?
